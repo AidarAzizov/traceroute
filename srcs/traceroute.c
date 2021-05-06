@@ -59,6 +59,7 @@ BOOL    traceroute(IcmpTargetType *targets)
         recyclePacket(targets);
 
         i = 0;
+        ft_strcpy(targets->prev_address, "");
         printf("%3d ", targets->_ip->ttl);
         while (i++ < targets->currentFlags.count_queries)
         {
