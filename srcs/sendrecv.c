@@ -17,7 +17,7 @@ BOOL    sender(IcmpTargetType *targets)
     createSSocket(targets);
     howSended = sendto(targets->sendsocket, targets->packToSend, len, 0,
                        (struct sockaddr*)&connection, sizeof(struct sockaddr));
-    close(targets->sendsocket); targets->sendsocket = -1;
+    //close(targets->sendsocket); targets->sendsocket = -1;
     if (howSended == len) return TRUE;
     if (howSended == -1) return printAndExit("Connection closed");
     return printAndExit("Bad try to send packet");
@@ -29,7 +29,7 @@ BOOL    receiver(IcmpTargetType *target)
 
     alarm(COUNT_W);
     while (work.stillwait && !work.alreadyend && howReceived == -1)
-        howReceived = recvmsg(target->recvsocket, &target->msg, MSG_DONTWAIT);
+        howReceived = recvmsg(target->sendsocket, &target->msg, MSG_DONTWAIT);
     alarm(0);
 
     if (howReceived == -1)
@@ -54,6 +54,6 @@ BOOL    receiver(IcmpTargetType *target)
         if (res) printf("%s (%s) ", res->h_name, target->prev_address);
         else printf("%s ", target->prev_address);
     }
-    printf("%.3lf  ", time);
+    printf("%.3lf ms  ", time);
     return TRUE;
 }

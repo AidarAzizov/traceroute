@@ -28,8 +28,8 @@ void    clearPacket(IcmpTargetType *target)
         free(target->packToSend);
     if (target->packToRecv)
         free(target->packToRecv);
-    if (INITED(target->recvsocket))
-        close(target->recvsocket);
+    if (INITED(target->sendsocket))
+        close(target->sendsocket);
 }
 
 BOOL    bindingPacket(IcmpTargetType *targets)

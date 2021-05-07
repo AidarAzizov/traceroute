@@ -3,6 +3,8 @@
 BOOL    createSSocket(IcmpTargetType *target)
 {
     int yes = 1;
+    if (INITED(target->sendsocket))
+        close(target->sendsocket);
     target->sendsocket = socket(target->_addrinfo->ai_family,
                               target->_addrinfo->ai_socktype,
                               target->_addrinfo->ai_protocol);

@@ -29,23 +29,16 @@ BOOL    init_count(uint64_t* res, int *index, int argc, char* argv[])
 {
     char flag;
     char symb;
-    uint64_t checker = 0;
 
     if (sscanf(argv[*index], " -%c %ld %c ", &flag, res, &symb) == 2)
-    {
-        sscanf(argv[*index], " -%c %ld %c ", &flag, &checker, &symb);
-        if (*res != checker)
-            return printAndExitWInt("invalid argument: ", (int)checker);
         return TRUE;
-    }
+    if (ft_strlen(argv[*index]) > 2)
+        return printAndExitWStr("invalid argument: ", argv[*index]);
     (*index)++;
-    if (*index >= argc)
+    if (*index > argc)
         return printAndExitWStr("option requires an argument -- ", argv[(*index) - 1]);
     if (sscanf(argv[*index], " %ld %c ", res, &symb) != 1)
-        return printAndExitWStr("invalid argument: ", argv[*index]);
-    sscanf(argv[*index], " %ld %c ", &checker, &symb);
-    if (*res != checker)
-        return printAndExitWInt("invalid argument: ", (int)checker);
+        return printAndExitWStr("invalid1 argument: ", argv[*index]);
     return TRUE;
 }
 BOOL    init_delaytime(double* res, int *index, int argc, char* argv[])
@@ -90,7 +83,7 @@ BOOL    parseArgs(IcmpTargetType *targets, int argc, char *argv[])
     BOOL result = TRUE;
     int i = 0;
     while (!targets->currentFlags.print_info && result && ++i < argc)
-        if (ft_strncmp(argv[i], "-h", 2) == 0)
+        if (ft_strncmp(argv[i], "-h", 2) == 0 && ft_strlen(argv[i]) == 2)
             targets->currentFlags.print_info = TRUE;
         else if (ft_strncmp(argv[i], "-f", 2) == 0)
             result = init_count(&targets->currentFlags.first_ttl, &i, argc, argv);

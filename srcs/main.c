@@ -19,14 +19,13 @@ void    setBaseFlags(flags *fl)
 
 int     printInfo()
 {
-    printf("\nUsage\n\tping [options] <destination>\n");
+    printf("Usage:\n\ttraceroute <destination> [options]");
     printf("\nOptions:\n  <destination>\t\tdns name or ip address");
-    printf("\n  -dt <delay>\t\tinstall <delay>(may"
-           " be less than 1.0) time for delay between pings");
-    printf("\n  -c <count>\t\tstop after <count> replies");
+    printf("\n  -z <delay>\t\tinstall <delay> time for delay between two probes");
+    printf("\n  -m <max TTL>\t\tinstall max Time To Live");
+    printf("\n  -f <first TTL>\t\tinstall first Time To Live");
+    printf("\n  -q <count>\t\tcount of probe");
     printf("\n  -h\t\t\tprint help and exit");
-    printf("\n  -s <size>\t\tuse <size> as number of data bytes to be sent");
-    printf("\n  -w <deadline>\t\treply wait <deadline> in seconds");
     printf("\n");
     return SUCCESS_CODE;
 }
@@ -55,6 +54,7 @@ BOOL    baseInit(IcmpTargetType  *targets, int argc, char *argv[])
     targets->packToSend = NULL;
     targets->packToRecv = NULL;
     targets->recvsocket = -1;
+    targets->sendsocket = -1;
     if (argc == 1)
         return printAndExit("usage error:"
                             "Destination address required");
